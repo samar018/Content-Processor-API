@@ -1,0 +1,83 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+*.log
+
+# --- Environment ---
+.env
+.venv/
+venv/
+ENV/
+env/
+.env.local
+.env.dev
+.env.prod
+
+# --- IDE / Editors ---
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# --- OS Files ---
+.DS_Store
+Thumbs.db
+
+# --- Byte-compiled / cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Pytest / Coverage ---
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+.cache
+.pytest_cache/
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints
+
+# --- Virtual Environments ---
+pip-wheel-metadata/
+*.env
+*.venv
+venv/
+ENV/
+
+# --- FastAPI / Uvicorn logs ---
+*.pid
+*.log
+
+# --- Local Databases ---
+*.db
+*.sqlite3
+
+# --- Deployment ---
+*.bak
+*.swp
+*.tmp
+
+# --- OS Generated ---
+ehthumbs.db
+Desktop.ini
+
+# --- Misc ---
+__MACOSX/
+
+# --- Project Specific ---
+# Ignore local data or builds inside your main project directory
+Article-processor-Agent-using-n8n-firecrawl/

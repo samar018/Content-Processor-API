@@ -1,0 +1,479 @@
+{
+  "name": "Article processor Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Task 1 — Setup Environment\n\nCreate or access your n8n instance (self-hosted, cloud, or via ngrok).\n\nMake sure you have:\n\nOpenAI API key (for summarization + insights)\n\nGoogle account with Google Sheets\n\nSMTP or Gmail credentials for sending emails\n\nCreate a Google Sheet named Article Summaries with columns:",
+        "height": 368,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1440,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "d06bc4ca-488a-47bb-bdfe-9abc17f7a8a5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8b37d02b-b15c-40b9-889b-75e586d17e37",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -944,
+        64
+      ],
+      "id": "162f1b60-c495-49e8-b26f-a06f78a11a6a",
+      "name": "Webhook",
+      "webhookId": "8b37d02b-b15c-40b9-889b-75e586d17e37"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Summarize the following article in 3–5 sentences, focusing on the main points and key information.\n\nArticle text:\n{{ $json.data.markdown }}\n\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -496,
+        64
+      ],
+      "id": "7ee2b222-ddb8-4001-bf9d-7f91e1427d84",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1u9dKoMZ4LarBC7L-7KyXSrkqXbTDvhPEybRuotdoWx0",
+          "mode": "list",
+          "cachedResultName": "googlesheet-n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1u9dKoMZ4LarBC7L-7KyXSrkqXbTDvhPEybRuotdoWx0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1u9dKoMZ4LarBC7L-7KyXSrkqXbTDvhPEybRuotdoWx0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('session_id___using_to_match_', ``, 'string') }}",
+            " article_url ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('_article_url_', ``, 'string') }}",
+            "title ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('title_', ``, 'string') }}",
+            "summary ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('summary_', ``, 'string') }}",
+            "|insights ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('_insights_', ``, 'string') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', ``, 'string') }}",
+            "timestamp": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('timestamp', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "session_id "
+          ],
+          "schema": [
+            {
+              "id": "session_id ",
+              "displayName": "session_id ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": " article_url ",
+              "displayName": " article_url ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "title ",
+              "displayName": "title ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "summary ",
+              "displayName": "summary ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "|insights ",
+              "displayName": "|insights ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        112,
+        288
+      ],
+      "id": "45b556b0-70bd-41d1-bb88-9e3fe81f836a",
+      "name": "Append or update row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "zy3Synywwp8ipp8h",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        288
+      ],
+      "id": "48a475fa-99e5-4b4d-a4a0-30da755d9fe7",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "39AEMnJF0xAcoJ45",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.session_id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -368,
+        288
+      ],
+      "id": "74a04f0d-d838-4483-a4fb-c94ca03e4896",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an AI automation agent responsible for post-processing an article summary.\n\nYour goals:\n1. Analyze the given summary and extract 3–5 key insights.\n2. Use the \"Append or update row in sheet in Google Sheets\" and \"Send a message in mail \" tools to perform the following actions:\n\n   - Append or update row in sheet in Google Sheets:\nto do-\n     → Append a new row containing:\n        - session_id\n        - article_url\n        - summary\n        - insights (as bullet points or comma-separated list)\n        - email\n        - timestamp (current date & time)\n\n   - Send a message in mail\nto do -\n     → Send an email to the user (from the provided email field) that includes:\n        - The summary\n        - The insights (nicely formatted)\n        - A friendly sign-off message\n\nInput data:\n{\n  \"summary\": \"{{ $json.output }}\",\n  \"email\": \"{{ $('Webhook').item.json.body.email }}\",\n  \"article_url\": \"{{ $('Webhook').item.json.body.article_url }}\",\n  \"session_id\": \"{{ $('Webhook').item.json.body.session_id }}\"\n}\n\nFollow this step-by-step:\n1. Read the summary carefully.\n2. Extract 3–5 meaningful insights — concise and valuable for the reader.\n3. Use both tools to store and send this information.\n\nmail body structure : for example :\n      \"tool\": \"Send a message in mail\",\n      \"action\": \"Send email\",\n      \"to\": \"...\",\n      \"subject\": \"Your Article Summary & Insights\",\n      \"body\": \"📰 Summary:\\n...\\n\\n💡 Insights:\\n- ...\\n- ...\\n\\nBest regards,\\nYour AI Assistant 🤖\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        64
+      ],
+      "id": "43345888-9eb9-4012-881a-5177f58aed14",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.session_id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -16,
+        288
+      ],
+      "id": "56c7e8f4-a29c-4e4f-b72b-2ee6b294d22f",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        288
+      ],
+      "id": "0b087f3e-5806-48f5-990d-4335dd1e0264",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "39AEMnJF0xAcoJ45",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        448,
+        64
+      ],
+      "id": "071a7d91-6f43-4d73-9a7f-d37f6e9d9106",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "scrape",
+        "url": "={{ $json.body.article_url }}",
+        "parsers": [
+          "pdf"
+        ],
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        64
+      ],
+      "id": "8e23c8a4-9e52-45f5-9bd6-03f7453ecaa4",
+      "name": "Scrape a url and get its content",
+      "credentials": {
+        "firecrawlApi": {
+          "id": "9mM4LFgqXzXhJjiM",
+          "name": "Firecrawl account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "=Article Summary and Insights",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        288
+      ],
+      "id": "2d6dddbf-7e27-40fd-aed6-b35cc758f865",
+      "name": "Send a message in mail",
+      "webhookId": "869f8f3d-653c-433d-80fd-63df8a969229",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wKgNdzh3pO8oVM0X",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "samardas4.app.n8n.cloud",
+            "user-agent": "python-httpx/0.28.1",
+            "content-length": "149",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "180.92.228.246",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "BD",
+            "cf-ray": "990a22b7d768f886-SIN",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "180.92.228.246, 172.68.164.38",
+            "x-forwarded-host": "samardas4.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-83-79dfc7d5f7-xzbdv",
+            "x-is-trusted": "yes",
+            "x-real-ip": "180.92.228.246"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "email": "samardas.edu@gmail.com",
+            "article_url": "https://www.bbc.com/news/articles/cgqlyw9g7weo",
+            "session_id": "b589598e-e6a7-49b7-9987-f14035da76b1"
+          },
+          "webhookUrl": "https://samardas4.app.n8n.cloud/webhook/8b37d02b-b15c-40b9-889b-75e586d17e37",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Scrape a url and get its content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape a url and get its content": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in mail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ad69cfc9-c447-4985-af61-b303f203425c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8135a80306a473d8bd791b802d8844e50fd2ed9d6533d12735c540c1a39f27e0"
+  },
+  "id": "DNqWlB48WBbZB8rO",
+  "tags": []
+}
