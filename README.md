@@ -307,7 +307,3 @@ Click **Process Article**
 👤 **Samar Das**
 
 Built using FastAPI, n8n, Firecrawl, OpenAI, Google Sheets, and Lovable.dev
-
----
-
-Would you like me to tailor this README for your **frontend repo** separately (so it only explains how to connect to backend + demo usage)?
